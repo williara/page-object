@@ -143,7 +143,8 @@ module PageObject
         #
         def parent
           script = "return (%s).apply(null, arguments)" % ATOMS.fetch(:getParentElement)
-          parent = bridge.executeScript(script, element)
+          #TODO: this likely needs to be applied to the other bridge.executeScript commands, but I am not going to fix now.
+          parent = bridge.execute_script(script, element)
           type = element.attribute(:type).to_s.downcase if parent.tag_name.to_sym == :input
           cls = ::PageObject::Elements.element_class_for(parent.tag_name, type)
           cls.new(parent, :platform => @platform.class::PLATFORM_NAME)
